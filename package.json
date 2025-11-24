@@ -1,12 +1,12 @@
 {
-  "name": "vitesse-uni-app",
+  "name": "vue-surge-mobile",
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.15.4",
   "license": "MIT",
   "scripts": {
     "dev": "unh dev",
+    "dev:wx": "unh dev wx",
     "build": "unh build",
     "about": "unh info",
     "type-check": "vue-tsc --noEmit",
@@ -15,6 +15,8 @@
     "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {
+    "@alova/adapter-uniapp": "^2.0.14",
+    "@alova/shared": "^1.3.1",
     "@dcloudio/uni-app": "3.0.0-4070520250711001",
     "@dcloudio/uni-app-harmony": "3.0.0-4070520250711001",
     "@dcloudio/uni-app-plus": "3.0.0-4070520250711001",
@@ -31,7 +33,15 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-4070520250711001",
     "@dcloudio/uni-mp-xhs": "3.0.0-4070520250711001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4070520250711001",
+    "@qiun/ucharts": "2.5.0-20230101",
+    "@uni-helper/axios-adapter": "^1.5.2",
     "@vueuse/core": "^13.5.0",
+    "@wecom/jssdk": "^2.3.2",
+    "alova": "^3.3.4",
+    "axios": "^1.4.0",
+    "es-toolkit": "^1.42.0",
+    "pinia": "^3.0.3",
+    "sard-uniapp": "^1.24.7",
     "vue": "3.4.21",
     "vue-i18n": "^9.14.5",
     "vue-router": "4.5.1"
@@ -62,6 +72,7 @@
     "eslint": "^9.32.0",
     "lint-staged": "^16.1.2",
     "miniprogram-api-typings": "^4.1.0",
+    "sass": "^1.93.2",
     "simple-git-hooks": "^2.13.0",
     "typescript": "~5.8.3",
     "unocss": "66.0.0",

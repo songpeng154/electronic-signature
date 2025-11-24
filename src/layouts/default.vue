@@ -1,9 +1,18 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <view class="px-10 py-20 text-center">
+  <view class="layout h-full w-full bg-[#F2F1F6]">
+    <sar-toast-agent />
+    <sar-dialog-agent />
     <slot />
-    <app-footer />
-    <view class="mx-auto mt-5 text-center text-sm opacity-25">
-      [Default Layout]
-    </view>
   </view>
 </template>
+
+<style lang="scss">
+.layout{
+  background: linear-gradient(177deg,rgba(213, 228, 247, 1) 0%, rgba(245, 245, 245, 1) 100%);
+
+  //background: linear-gradient(180deg,rgba(213, 228, 247, 1) 0%, rgba(255, 255, 255, 1) 100%);
+}
+</style>

@@ -3,17 +3,41 @@
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "baseUrl": ".",
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "moduleResolution": "bundler",
     "paths": {
-      "@/*": ["./src/*"]
+      "~/*": ["./*"],
+      "@/*": ["./src/*"],
+      "#/*": ["./types/*"]
     },
     "types": [
       "@dcloudio/types",
       "@mini-types/alipay",
       "miniprogram-api-typings",
       "@uni-helper/uni-types",
-      "@uni-helper/vite-plugin-uni-pages"
+      "@uni-helper/vite-plugin-uni-pages",
+      "sard-uniapp/global"
     ],
-    "sourceMap": true
+    "include": ["./**/*.ts","./**/*.d.ts", "./**/*.tsx", "./**/*.vue"],
+
+    "sourceMap": true,
+
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   "vueCompilerOptions": {
     // 调整 Volar（Vue 语言服务工具）解析行为，用于为 uni-app 组件提供 TypeScript 类型
