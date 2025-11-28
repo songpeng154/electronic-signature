@@ -9,3 +9,13 @@ export function getDictionaryByType(type: any) {
 export function getParameterByKey(key: any) {
   return service.get(`/system/config/configKey/${key}`)
 }
+
+// 刷新 token
+export function refreshToken(data) {
+  return service.post(`/reGetToken`, data)
+}
+
+// token 是否过期
+export function hasExpiredToken(data) {
+  return service.post('/isToken', data)
+}

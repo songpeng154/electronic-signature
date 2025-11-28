@@ -22,6 +22,7 @@ const form = ref<Recordable>({
   id: undefined,
   userId: undefined,
   taskHandlingInstructions: undefined,
+  dataFrom: undefined,
 })
 const details = ref<Recordable>({})
 const notificationType = ref<Recordable[]>([])
@@ -46,6 +47,7 @@ const getDetails = async (id) => {
   details.value = res.data
   form.value.taskId = res.data.id
   form.value.taskCreateUserId = res.data.createBy
+  form.value.dataFrom = res.data.dataFrom
 }
 
 const getNotificationType = async () => {
@@ -63,7 +65,8 @@ const submit = async () => {
     toast('提交失败')
 }
 
-onLoad((o) => {
+onLoad(async (o) => {
+  await userStore.getUserinfo()
   getDetails(o.id)
   getNotificationType()
 })
@@ -143,7 +146,7 @@ onShow(() => {
       </sar-card>
     </div>
     <div class="bg-white p-15px">
-      <sar-button v-if="details.status === 1 && userStore.isSecrecyOfficer"@click="submit">
+      <sar-button v-if="details.status === 1 && userStore.isSecrecyOfficer" @click="submit">
         提交
       </sar-button>
     </div>

@@ -89,6 +89,7 @@ const toScore = () => {
   uni.navigateTo({ url: `/pages-sub/score/index?${urlSearchParams.toString()}` })
 }
 onLoad(async () => {
+  await userStore.getUserinfo()
   await getTypeList()
   await getList()
 })

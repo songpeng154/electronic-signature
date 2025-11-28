@@ -133,7 +133,6 @@ onShow(() => {
               v-for="item in supervisoryList"
               :key="item.id"
               root-class="mb-10px w-full"
-              @click="toDetails(item.id)"
             >
               <div class="w-full flex items-center justify-between gap-10px">
                 <img
