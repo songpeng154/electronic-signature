@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import * as ww from '@wecom/jssdk'
 import { formatDate, toast } from 'sard-uniapp'
 import { getDictionaryByType } from '@/service/api/common.ts'
-import { getSupervisingInfo, submitSupervising } from '@/service/api/supervising.ts'
+import { getSupervisingInfo, shareTasks, submitSupervising } from '@/service/api/supervising.ts'
 import useUserStore from '@/store/module/user.ts'
 import { formatDictField } from '@/utils/dict.ts'
 
@@ -21,6 +22,7 @@ const form = ref<Recordable>({
   id: undefined,
   userId: undefined,
   taskHandlingInstructions: undefined,
+  dataFrom: 'supervisetask',
 })
 const details = ref<Recordable>({})
 const affiliatedType = ref<Recordable[]>([])
@@ -70,19 +72,56 @@ const submit = async () => {
     toast('提交失败')
 }
 
-onLoad((o) => {
+const share = () => {
+  ww.selectEnterpriseContact({
+    fromDepartmentId: -1,
+    mode: 'multi',
+    // type: ['department', 'user'],
+    type: ['user'],
+    async success(res) {
+      const data = await shareTasks({
+        userList: res?.result?.userList.map(item => item.id) || [],
+        businessId: details.value.id,
+        dataFrom: 'supervisetask',
+      })
+      if (data.code === 200)
+        uni.showToast({
+          title: '分享成功',
+        })
+      else
+        uni.showToast({
+          title: '分享失败',
+        })
+    },
+    fail(res) {
+      uni.showToast({
+        title: '分享失败',
+      })
+    },
+  })
+}
+
+onLoad(async (o) => {
+  await userStore.getUserinfo()
   getDetails(o.id)
   getAffiliatedType()
   getEvaluateType()
 })
+
 onShow(() => {
-  form.value.userId = userStore.userinfo?.userId
+  form.value.userId = userStore.userinfo?.user?.userId
 })
 </script>
 
 <template>
   <div class="h-full w-full flex flex-col justify-between">
-    <Header title="督办详情" />
+    <Header title="督办详情">
+      <template #right>
+        <sar-button size="mini" type="text" @click="share">
+          分享
+        </sar-button>
+      </template>
+    </Header>
     <div class="flex-1 overflow-auto p-10px">
       <sar-card root-class="w-full overflow-auto">
         <sar-form direction="vertical">
@@ -174,7 +213,7 @@ onShow(() => {
         </sar-steps>
       </sar-card>
     </div>
-    <div class="bg-white p-15px">
+    <div v-if="userStore.hasPermissions('taskCompletion:completion:submit')" class="bg-white p-15px">
       <sar-button @click="submit">
         提交
       </sar-button>

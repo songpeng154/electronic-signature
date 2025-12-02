@@ -1,6 +1,7 @@
+import * as ww from '@wecom/jssdk'
 import { defineStore } from 'pinia'
 import { toast } from 'sard-uniapp'
-import { getParameterByKey, hasExpiredToken, refreshToken } from '@/service/api/common.ts'
+import { getApplySignatures, getCorporateSignature, hasExpiredToken, refreshToken } from '@/service/api/common.ts'
 import { getUserInfo, login } from '@/service/api/user.ts'
 import { tokenCache } from '@/store/cache.ts'
 import { getMetaEnv } from '@/utils/env.ts'
@@ -10,18 +11,21 @@ const useUserStore = defineStore('user', () => {
   const code = ref<string>()
   const isSecrecyOfficer = ref<boolean>(false)
 
-  // 是否是保密员
-  const getSecrecyOfficer = async () => {
-    const res = await getParameterByKey('role_confidentiality')
-    isSecrecyOfficer.value = userinfo.value?.roles?.some(item => item.roleKey === res.msg) || false
-  }
-
   async function getUserinfo() {
     const res = await getUserInfo()
     console.log(res)
-    userinfo.value = res.data
+    if (res.code !== 200)
+      return toast(`用户信息获取失败`)
 
-    await getSecrecyOfficer()
+    userinfo.value = {
+      permissions: res.permissions,
+      roles: res.roles,
+      user: res.user,
+    }
+  }
+
+  const hasPermissions = (key) => {
+    return userinfo.value?.permissions?.includes(key)
   }
 
   const weLogin = async () => {
@@ -56,7 +60,38 @@ const useUserStore = defineStore('user', () => {
     }
   }
 
+  const enterpriseWeChatRegister = () => {
+    const metaEnv = getMetaEnv()
+    ww.register({
+      corpId: metaEnv.VITE_CORP_ID,
+      agentId: metaEnv.VITE_AGENT_ID,
+      jsApiList: ['selectEnterpriseContact'],
+      async getConfigSignature(url) {
+        return ww.getSignature('7mo9kzLF0zXvfXKd2ScDpI-zYMOGLjj_pO3sVe9jY0V_V-s9yV69i71pfoSc4UxHg9DhjMwgraSvPhnollGvAQ')
+        console.log(`企业 URL:${url}`)
+        const res = await getCorporateSignature(url)
+        console.log(res)
+      },
+      async getAgentConfigSignature(url) {
+        return ww.getSignature('yHclwsq+Wfr4i407q2UoCQ==')
+        console.log(`应用 URL:${url}`)
+        const res = await getApplySignatures(url)
+        console.log(res)
+      },
+      onConfigSuccess() {
+        alert('注册成功')
+      },
+      onConfigFail(err) {
+        alert('注册失败')
+      },
+      onConfigComplete() {
+        alert('注册完成')
+      },
+    })
+  }
+
   const prepare = async () => {
+    enterpriseWeChatRegister()
     const searchParams = new URLSearchParams(location.search)
     const codeParams = searchParams.get('code')
     if (tokenCache.get()) {
@@ -80,7 +115,7 @@ const useUserStore = defineStore('user', () => {
   return {
     userinfo,
     code,
-    isSecrecyOfficer,
+    hasPermissions,
     getUserinfo,
     prepare,
     removeUserinfo,

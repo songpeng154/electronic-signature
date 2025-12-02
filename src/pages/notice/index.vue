@@ -6,6 +6,8 @@ const query = ref({
   name: undefined,
   pageNum: 1,
   pageSize: 10,
+  isAsc: 'descending',
+  orderByColumn: 'createTime',
 })
 const refreshing = ref(false)
 const total = ref(0)

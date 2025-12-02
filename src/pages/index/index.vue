@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { tokenCache } from '@/store/cache.ts'
 import useUserStore from '@/store/module/user.ts'
 
 const userStore = useUserStore()
 
 onLoad(() => {
-  tokenCache.set('eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnX2R5IiwibG9naW5fdXNlcl9rZXkiOiJjOGNmZGFhMS04OWE2LTRiZmMtODk3OS04YTJiOWE0M2U1OTQifQ.TGmosSZPS1kWtqJtXl06mwsHrLKfMFJnalzequQdkE2pZTMY_TiqyAPFXnyIjPDe2h5GGcyj8WhpAZAHd271Pw')
+  // tokenCache.set('eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXJvcmEuIiwibG9naW5fdXNlcl9rZXkiOiIwODU0OGVlMy0yZjkyLTRmZmMtYTBiZC05YjRjODcyNjQ2YTkifQ.fpaK0gNf_OADRbF-MBIEnC7qtupHQCGMl1rFzNGf0_d4RX-CXD5eYZrnWfNUvnDIg4DepMznXIhpgVCu2CekFw')
   userStore.prepare()
 })
 </script>

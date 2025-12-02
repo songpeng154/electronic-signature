@@ -2,7 +2,7 @@ import service from '@/service/request.ts'
 
 // 获取用户信息
 export function getUserInfo() {
-  return service.get('/system/user/profile')
+  return service.get('/getInfo')
 }
 
 // 登录

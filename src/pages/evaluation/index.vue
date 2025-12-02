@@ -49,7 +49,7 @@ const getTypeList = async () => {
 const getList = async () => {
   const res = await getEvaluationList(query.value)
   console.log(res)
-  dpartment.value = res.rows.find(item => item.deptId === userStore.userinfo?.deptId)
+  dpartment.value = res.rows.find(item => item.deptId === userStore.userinfo?.user?.deptId)
 
   const list = res.rows.filter((item) => {
     return item.ranking && (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)

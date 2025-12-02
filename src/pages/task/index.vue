@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { LoadMoreStatus, PullDownRefreshExpose } from 'sard-uniapp'
 import { getSupervisingList } from '@/service/api/supervising.ts'
-import { tokenCache } from '@/store/cache.ts'
 import useUserStore from '@/store/module/user.ts'
 
 const query = ref({
   taskName: undefined,
   pageNum: 1,
   pageSize: 10,
+  isAsc: 'descending',
+  orderByColumn: 'createTime',
 })
 const refreshing = ref(false)
 const total = ref(0)
@@ -80,6 +81,7 @@ function onSearch() {
 
 onLoad(async () => {
   // await userStore.prepare()
+  await userStore.getUserinfo()
   await onRefresh()
 })
 </script>
@@ -87,7 +89,7 @@ onLoad(async () => {
 <template>
   <div class="home h-full w-full flex flex-col justify-between">
     <Header hide-back title="BM督办" />
-    {{ tokenCache.get() }}
+    <!--    {{ tokenCache.get() }} -->
     <div class="flex flex-1 flex-col gap-10px overflow-hidden p-10px">
       <sar-input
         v-model="query.taskName"

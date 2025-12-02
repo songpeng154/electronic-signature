@@ -19,3 +19,12 @@ export function refreshToken(data) {
 export function hasExpiredToken(data) {
   return service.post('/isToken', data)
 }
+// 获取企业签名
+export function getCorporateSignature(url) {
+  return service.get('/business/vx/getEnterpriseJsapiTicket', { params: { url } })
+}
+
+// 获取应用签名
+export function getApplySignatures(url) {
+  return service.get('/business/vx/getApplicationJsapiTicket', { params: { url } })
+}

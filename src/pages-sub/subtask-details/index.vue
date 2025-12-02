@@ -149,7 +149,7 @@ onLoad(async (options: any) => {
         </sar-steps>
       </sar-card>
     </div>
-    <div class="flex gap-10px bg-white p-15px">
+    <div v-if="userStore.hasPermissions('taskCompletion:completion:rejectAndConfirm')" class="flex gap-10px bg-white p-15px">
       <sar-button theme="secondary" @click="onPassOrReject(0)">
         驳回
       </sar-button>

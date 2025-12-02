@@ -40,3 +40,8 @@ export function getSubTaskInfo(id) {
 export function subTaskThroughOrDismissed(data) {
   return service.put(`/taskCompletion/completion/rejectAndConfirm`, data)
 }
+
+// 分享任务
+export function shareTasks(data) {
+  return service.post('/taskCompletion/completion/share', data)
+}
